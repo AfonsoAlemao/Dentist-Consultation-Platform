@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Appointments and Consultations of Client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <button onclick="window.location.href='/clients'">Back</button>
+
+    <h2>Appointments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT Doctor</th>
+                <th>Date and Time</th>
+                <th>VAT Client</th>
+                <th>Description</th>
+                <th>View Consultation</th>
+                <th>Create Consultation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.vat_doctor }}</td>
+                    <td>{{ appointment.date_timestamp }}</td>
+                    <td>{{ appointment.vat_client }}</td>
+                    <td>{{ appointment.description }}</td>
+                    <td>
+                        <a href="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}">
+                            <button type="button">View</button>
+                        </a>
+                    </td>
+                    {% if appointment.is_in_consultation == False %}
+                    <td>
+                        <a href="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/create_consultation">
+                            <button type="button">Create</button>
+                        </a>
+                    </td>
+                    {% else %}
+                    <td>
+                        Already Created
+                    </td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Consultations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT Doctor</th>
+                <th>Date and Time</th>
+                <th>SOAP S</th>
+                <th>SOAP O</th>
+                <th>SOAP A</th>
+                <th>SOAP P</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consultation in consultations %}
+                <tr>
+                    <td>{{ consultation.vat_doctor }}</td>
+                    <td>{{ consultation.date_timestamp }}</td>
+                    <td>{{ consultation.soap_s }}</td>
+                    <td>{{ consultation.soap_o }}</td>
+                    <td>{{ consultation.soap_a }}</td>
+                    <td>{{ consultation.soap_p }}</td>
+                    <td>
+                        <a href="/client/{{ client.vat }}/{{ consultation.vat_doctor }}/{{ consultation.date_timestamp }}">
+                            <button type="button">View</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

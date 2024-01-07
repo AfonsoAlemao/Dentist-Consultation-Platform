@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add Appointment for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Doctor</h2>
+    {% if doctors != [] %}
+    <form id="addDoctorForm" method="post" action="/client/{{ client.vat }}/{{date_timestamp}}/new_appointment2">
+        <label for="doctor">Choose a Doctor by VAT:</label>
+        <select id="VAT_doctor" name="VAT_doctor">
+            {% for doctor in doctors %}
+                <option value="{{ doctor.vat }}">{{ doctor.vat }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" maxlength="65535" required>
+
+        <button type="submit">Add Appointment</button>
+    </form>
+
+    <h2>Available Doctors:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT</th>
+                <th>Name</th>
+                <th>Biography</th>
+                <th>E-mail</th>
+                <th>Specialization</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor.vat }}</td>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.biography }}</td>
+                    <td>{{ doctor.email }}</td>
+                    <td>{{ doctor.specialization }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+        No doctors available!
+    {% endif %}
+
+    <!-- Button to redirect -->
+    <button onclick="window.location.href='/clients'">Back to Clients</button>
+{% endblock %}

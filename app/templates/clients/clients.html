@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Clients{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <button onclick="window.location.href='/dashboard'">Back</button>
+    <a href="/new_client" class="button-link">
+        <button type="button">New Client</button>
+    </a>
+
+    <form action="{{ url_for('clients2') }}" method="post">
+        <input type="text" name="search" placeholder="Search by VAT, Name, Address..." value="{{ request.form.get('search', '') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>VAT</th>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>ZIP</th>
+                <th>Gender</th>
+                <th>Appoitments</th>
+                <th>Create Appointment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.vat }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.birth_date }}</td>
+                    <td>{{ client.street }}</td>
+                    <td>{{ client.city }}</td>
+                    <td>{{ client.zip }}</td>
+                    <td>{{ client.gender }}</td>
+                    <td><a href="/client/{{ client.vat }}"><button type="button">View</button></a></td>
+                    <td><a href="/client/{{ client.vat }}/new_appointment" class="button-link">
+                            <button type="button">New Appointment</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

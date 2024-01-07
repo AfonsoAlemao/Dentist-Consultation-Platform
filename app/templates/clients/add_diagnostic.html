@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add Diagnostic for client {{ client.name }} with VAT {{ client.vat }} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Diagnostic</h2>
+
+    <form id="addDiagnosticForm" method="post" action="/client/{{ client.vat }}/{{ consultation.vat_doctor }}/{{ consultation.date_timestamp }}/add_diagnostic2">
+        <p>VAT Doctor: {{ consultation.vat_doctor }}</p>
+        <p>Date Timestamp: {{ consultation.date_timestamp }}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select name="ID">
+                            {% for ID in IDs %}
+                                <option value="{{ ID }}" {% if ID == selected_ID %}selected{% endif %}>{{ ID }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit">Add Diagnostic</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Button to redirect -->
+    <button onclick="window.location.href='/client/{{ client.vat }}/{{ consultation.vat_doctor }}/{{ consultation.date_timestamp }}'">Back</button>
+{% endblock %}

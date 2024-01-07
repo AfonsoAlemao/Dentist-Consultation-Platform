@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} Dental Clinic </title>
+</head>
+<body>
+    <section class="content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+</body>
+<style>
+    /* Style for the table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    /* Style for table header */
+    thead {
+        background-color: #f2f2f2;
+    }
+    
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    /* Style for alternating rows */
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    /* Style for buttons */
+    .button-link {
+        text-decoration: none;
+    }
+    
+    button {
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+</html>

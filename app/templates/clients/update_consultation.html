@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Update Consultation for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Consultation</h2>
+
+    <form id="updateConsultationForm" method="post" action="/client/{{ client.vat }}/{{ consultation.vat_doctor }}/{{ consultation.date_timestamp }}/update_consultation2">
+        <p>VAT Doctor: {{ consultation.vat_doctor }}</p>
+        <p>Date Timestamp: {{ consultation.date_timestamp }}</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>SOAP S</th>
+                    <th>SOAP O</th>
+                    <th>SOAP A</th>
+                    <th>SOAP P</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="soap_s" id="soap_s" value="{{ consultation.soap_s }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <input type="text" name="soap_o" id="soap_o" value="{{ consultation.soap_o }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <input type="text" name="soap_a" id="soap_a" value="{{ consultation.soap_a }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <input type="text" name="soap_p" id="soap_p" value="{{ consultation.soap_p }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <button type="submit">Update Consultation</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Button to redirect -->
+    <form method="get" action="/client/{{ client.vat }}/{{ consultation.vat_doctor }}/{{ consultation.date_timestamp }}">
+        <button type="submit">Back</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Update Procedure {{procedure.name}} for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Procedure</h2>
+
+    <form id="updateProcedureForm" method="post" action="/client/{{ client.vat }}/{{ procedure.vat_doctor }}/{{ procedure.date_timestamp }}/update_procedure2/{{ procedure.name }}">
+        <p>VAT Doctor: {{ procedure.vat_doctor }}</p>
+        <p>Date Timestamp: {{ procedure.date_timestamp }}</p>
+        <p>Procedure name: {{ procedure.name }}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="description" id="description" value="{{ procedure.description }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <button type="submit">Update Procedure</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Button to redirect -->
+    <button onclick="window.location.href='/client/{{ client.vat }}/{{ procedure.vat_doctor }}/{{ procedure.date_timestamp }}'">Back</button>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Update Appointment/Consultation for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <script>
+        function redirectAddProcedure(VAT, doctorVAT, timestamp) {
+            window.location.href = `/client/${VAT}/${doctorVAT}/${timestamp}/add_procedure`;
+        }
+
+        function redirectAddDiagnostic(VAT, doctorVAT, timestamp) {
+            window.location.href = `/client/${VAT}/${doctorVAT}/${timestamp}/add_diagnostic`;
+        }
+
+        function redirectAddNurse(VAT, doctorVAT, timestamp) {
+            window.location.href = `/client/${VAT}/${doctorVAT}/${timestamp}/add_nurse`;
+        }
+    </script>
+
+    <button onclick="window.location.href='/client/{{ client.vat }}'">Back</button>
+
+    <h2>Appointments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT Doctor</th>
+                <th>Date and Time</th>
+                <th>VAT Client</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ appointment.vat_doctor }}</td>
+                <td>{{ appointment.date_timestamp }}</td>
+                <td>{{ appointment.vat_client }}</td>
+                <td>{{ appointment.description }}</td>
+                <td>
+
+                    <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/update_appointment" method="post">
+                        <button type="submit">Update Appointment</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Consultation</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT doctor</th>
+                <th>Date and Time</th>
+                <th>SOAP S</th>
+                <th>SOAP O</th>
+                <th>SOAP A</th>
+                <th>SOAP P</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {% if consultation != None %}
+        <tbody>
+            <tr>
+                <td>{{ appointment.vat_doctor }}</td>
+                <td>{{ appointment.date_timestamp }}</td>
+                <td>{{ consultation.soap_s }}</td>
+                <td>{{ consultation.soap_o }}</td>
+                <td>{{ consultation.soap_a }}</td>
+                <td>{{ consultation.soap_p }}</td>
+                <td>
+                    
+                    <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/update_consultation" method="post">
+                        <button type="submit">Update Consultation</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        {% endif %}
+    </table>
+
+    {% if consultation != None %}
+    <h2>Procedures</h2>
+    <table id="procedures_table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for procedure in procedures %}
+                <tr>
+                    <td>{{ procedure.name }}</td>
+                    <td>{{ procedure.description }}</td>
+                    <td>
+                        <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/update_procedure/{{procedure.name}}" method="post">
+                            <button type="submit">Update Procedure</button>
+                        </form>
+                        
+                        <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/delete_procedure/{{procedure.name}}" method="post">
+                            <button type="submit">Delete Procedure</button>
+                        </form>    
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" onclick="redirectAddProcedure('{{ client.vat }}', '{{ appointment.vat_doctor }}', '{{ appointment.date_timestamp }}')">Add Procedure</button>
+
+    <h2>Diagnosis</h2>
+    <table id="diagnosis_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diagnostic in diagnosis %}
+                <tr>
+                    <td>{{ diagnostic.id }}</td>
+                    <td>{{ diagnostic.description }}</td>
+                    <td>
+                        <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/delete_diagnostic/{{diagnostic.id}}" method="post">
+                            <button type="submit">Delete Diagnostic</button>
+                        </form>        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" onclick="redirectAddDiagnostic('{{ client.vat }}', '{{ appointment.vat_doctor }}', '{{ appointment.date_timestamp }}')">Add Diagnostic</button>
+
+    <h2>Nurses</h2>
+    <table id="nurses_table">
+        <thead>
+            <tr>
+                <th>VAT</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nurse in nurses %}
+                <tr>
+                    <td>{{ nurse.vat }}</td>
+                    <td>{{ nurse.name }}</td>
+                    <td>
+                        <form action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/delete_nurse/{{nurse.vat}}" method="post">
+                            <button type="submit" >Delete Nurse</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if nurses|length == 0 %}
+        <button type="button" onclick="redirectAddNurse('{{ client.vat }}', '{{ appointment.vat_doctor }}', '{{ appointment.date_timestamp }}')">Add Nurse</button>
+    {% endif %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add Appointment for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Appointment</h2>
+
+    <form id="addAppointmentForm" method="post" action="/client/{{ client.vat }}/new_appointment_doctor">
+
+        <label for="date">Select Date:</label>
+        <input type="date" name="date" id="date" required pattern="\d{4}-\d{2}-\d{2}">
+
+        <label for="time">Select Time:</label>
+        <select name="time" id="time" required>
+            {% for slot in available_slots %}
+                <option value="{{ slot }}">{{ slot }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Add Appointment</button>
+    </form>
+
+    <!-- Button to redirect -->
+    <button onclick="window.location.href='/clients'">Back</button>
+{% endblock %}

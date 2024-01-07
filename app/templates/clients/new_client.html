@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add Client {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Client</h2>
+
+    <form id="addClientForm" method="post" action="/new_client2">
+        <!-- VAT -->
+        <label for="vat">VAT:</label>
+        <input type="text" id="vat" name="vat"  maxlength="20" required>
+
+        <!-- Name -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"  maxlength="80" required>
+
+        <!-- Birth Date -->
+        <label for="birth_date">Birth Date:</label>
+        <input type="date" id="birth_date" name="birth_date" required pattern="\d{4}-\d{2}-\d{2}">
+
+        <!-- Street -->
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street"  maxlength="255" required>
+
+        <!-- City -->
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city"  maxlength="30" required>
+
+        <!-- ZIP -->
+        <label for="zip">ZIP:</label>
+        <input type="text" id="zip" name="zip"  maxlength="12" required>
+
+        <!-- Gender -->
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+        </select>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Button to redirect -->
+    <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+{% endblock %}

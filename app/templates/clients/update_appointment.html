@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Update Appointment for client {{ client.name }} with VAT {{ client.vat }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h2>Appointment</h2>
+
+    <form id="updateAppointmentForm" method="post" action="/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}/update_appointment2">
+        <p>VAT Doctor: {{ appointment.vat_doctor }}</p>
+        <p>Date Timestamp: {{ appointment.date_timestamp }}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="description" id="description" value="{{ appointment.description }}" maxlength="65535" required>
+                    </td>
+                    <td>
+                        <button type="submit">Update Appointment</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Button to redirect to "/client/<VAT>/<VAT_doctor>/<date_timestamp>" -->
+    <button onclick="redirectToAppointment()">Back</button>
+
+    <script>
+        function redirectToAppointment() {
+            // Construct the redirect URL
+            var redirectUrl = "/client/{{ client.vat }}/{{ appointment.vat_doctor }}/{{ appointment.date_timestamp }}";
+            
+            // Perform the redirection
+            window.location.href = redirectUrl;
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Dashboard{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <a href="/clients" class="button-link">
+        <button type="button">Clients</button>
+    </a>
+    <a href="/new_client" class="button-link">
+        <button type="button">New Client</button>
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <th>VAT Client</th>
+                <th>Date</th>
+                <th>Total Diagnostic Codes</th>
+                <th>Total Procedures</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fact in facts_consultations %}
+                <tr>
+                    <td>{{ fact.vat or "All Clients" }}</td>
+                    <td>{{ fact.date or "All Dates"}}</td>
+                    <td>{{ fact.total_diagnostic_codes }}</td>
+                    <td>{{ fact.total_procedures }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
